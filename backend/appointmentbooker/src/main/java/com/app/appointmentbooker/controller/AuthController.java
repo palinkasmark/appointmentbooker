@@ -48,9 +48,6 @@ public class AuthController {
     public ResponseEntity<String> register(
             @RequestBody RegisterDto registerDto
             ) {
-        System.out.println(userRepository.existsByUsername(registerDto.getUsername()));
-        System.out.println(userRepository.findByUsername(registerDto.getUsername()));
-        System.out.println(registerDto.toString());
         if(userRepository.existsByUsername(registerDto.getUsername())) {
             return new ResponseEntity<>("Username is taken!",
                     HttpStatus.BAD_REQUEST);
@@ -78,8 +75,6 @@ public class AuthController {
                         loginDto.getUsername(),
                         loginDto.getPassword()
                 ));
-
-        System.out.println("Auth: " + authentication);
 
         SecurityContextHolder.getContext()
                 .setAuthentication(authentication);
