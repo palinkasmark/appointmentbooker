@@ -5,21 +5,34 @@ import { useNavigate } from "react-router-dom";
 const Main = () => {
   const navigate = useNavigate();
 
-  function goLogin() {
-    navigate("/login");
-  }
-  function goSignUp() {
-    navigate("/signup");
-  }
+  const navigateTo = (page) => {
+    navigate(`/${page}`);
+  };
 
   return (
     <div>
-      <Button onClick={goSignUp} variant="contained" color="success">
+      <Button
+        onClick={() => navigateTo("signup")}
+        variant="contained"
+        color="success"
+      >
         Sign Up
       </Button>
 
-      <Button onClick={goLogin} variant="contained" color="success">
+      <Button
+        onClick={() => navigateTo("login")}
+        variant="contained"
+        color="success"
+      >
         Login
+      </Button>
+
+      <Button
+        onClick={() => navigateTo("home")}
+        variant="contained"
+        color="success"
+      >
+        Home
       </Button>
     </div>
   );

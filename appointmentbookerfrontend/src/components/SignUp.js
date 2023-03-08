@@ -10,13 +10,13 @@ function SignUp() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const newOwner = {
+    const newUser = {
       username: username,
       password: password,
     };
 
     try {
-      const response = await api.post("/api/auth/register", newOwner);
+      const response = await api.post("/api/auth/register", newUser);
       console.log(response);
     } catch (err) {
       console.log(`Error: ${err.message}`);

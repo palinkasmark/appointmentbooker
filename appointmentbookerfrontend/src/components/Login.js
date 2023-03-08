@@ -8,16 +8,10 @@ import { useNavigate } from "react-router";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [owners, setOwners] = useState([]);
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   getOwners();
-  // }, [owners]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const user = {
       username: username,
       password: password,
@@ -25,38 +19,18 @@ const Login = () => {
 
     try {
       const response = await api.post("api/auth/login", user);
-      console.log(response.data);
+      console.log(response.data.accessToken);
+      const data = response.data;
+      const token = data.accessToken;
+      localStorage.clear();
+      localStorage.setItem("user-token", token);
+      setTimeout(() => {
+        navigate("/");
+      }, 500);
     } catch (err) {
       console.log(`Error: ${err.message}`);
     }
-
-    // if (checkIsOwner()) {
-    //   alert(`Sikeres bejelentkezes: ${name}`);
-    //   navigate("/");
-    // } else {
-    //   alert(`Nincs ilyen felhasznalo: ${name}`);
-    // }
   };
-
-  // const checkIsOwner = () => {
-  //   let isOwner = false;
-  //   owners.forEach((element) => {
-  //     if (element.name === name) {
-  //       isOwner = true;
-  //       return isOwner;
-  //     }
-  //   });
-  //   return isOwner;
-  // };
-
-  // const getOwners = async () => {
-  //   try {
-  //     const response = await api.get("/owner/getAllOwner");
-  //     setOwners(response.data);
-  //   } catch (err) {
-  //     console.log(`Error: ${err.message}`);
-  //   }
-  // };
 
   return (
     <div>
