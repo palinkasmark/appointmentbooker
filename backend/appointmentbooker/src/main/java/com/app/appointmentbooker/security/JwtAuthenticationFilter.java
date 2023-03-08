@@ -24,15 +24,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private CustomUserDetailsService customUserDetailsService;
 
 
-//    @Autowired
-//    public JwtAuthenticationFilter(JwtGenerator tokenGenerator, CustomUserDetailsService customUserDetailsService) {
-//        this.tokenGenerator = tokenGenerator;
-//        this.customUserDetailsService = customUserDetailsService;
-//    }
-
-
-
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 

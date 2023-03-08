@@ -2,6 +2,7 @@ package com.app.appointmentbooker.controller;
 
 import com.app.appointmentbooker.dto.AuthResponseDTO;
 import com.app.appointmentbooker.dto.LoginDto;
+import com.app.appointmentbooker.dto.RegisterDto;
 import com.app.appointmentbooker.model.Role;
 import com.app.appointmentbooker.model.UserEntity;
 import com.app.appointmentbooker.repository.RoleRepository;
@@ -26,11 +27,11 @@ import java.util.Collections;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private AuthenticationManager authenticationManager;
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
-    private JwtGenerator jwtGenerator;
+    private final AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtGenerator jwtGenerator;
 
     @Autowired
     public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder,
@@ -42,42 +43,22 @@ public class AuthController {
         this.jwtGenerator = jwtGenerator;
     }
 
-//    @PostMapping("register")
-//    public ResponseEntity<String> register(
-//            @RequestBody RegisterDto registerDto
-//            ) {
-//        if(userRepository.existsByUsername(registerDto.getUsername())) {
-//            return new ResponseEntity<>("Username is taken!",
-//                    HttpStatus.BAD_REQUEST);
-//        }
-//
-//        UserEnttity user = new UserEnttity();
-//        user.setUsername(registerDto.getUsername());
-//        user.setPassword(passwordEncoder.encode(registerDto.getPasword()));
-//
-//        Role roles = roleRepository.findByName("USER").get();
-//        user.setRoles(Collections.singletonList(roles));
-//
-//        userRepository.save(user);
-//
-//        return new ResponseEntity<>("User registered success!",
-//                HttpStatus.OK);
-//    }
-
-
 
     @PostMapping("register")
     public ResponseEntity<String> register(
-            @RequestBody UserEntity userEntity
-    ) {
-        if(userRepository.existsByUsername(userEntity.getUsername())) {
+            @RequestBody RegisterDto registerDto
+            ) {
+        System.out.println(userRepository.existsByUsername(registerDto.getUsername()));
+        System.out.println(userRepository.findByUsername(registerDto.getUsername()));
+        System.out.println(registerDto.toString());
+        if(userRepository.existsByUsername(registerDto.getUsername())) {
             return new ResponseEntity<>("Username is taken!",
                     HttpStatus.BAD_REQUEST);
         }
 
         UserEntity user = new UserEntity();
-        user.setUsername(userEntity.getUsername());
-        user.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+        user.setUsername(registerDto.getUsername());
+        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
         Role roles = roleRepository.findByName("USER").get();
         user.setRoles(Collections.singletonList(roles));
@@ -87,23 +68,6 @@ public class AuthController {
         return new ResponseEntity<>("User registered success!",
                 HttpStatus.OK);
     }
-
-
-//    @PostMapping("login")
-//    public ResponseEntity<String> login(
-//            @RequestBody UserEntity userEntity
-//    ){
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        userEntity.getUsername(),
-//                        userEntity.getPassword()
-//                ));
-//
-//        SecurityContextHolder.getContext()
-//                .setAuthentication(authentication);
-//        return new ResponseEntity<>("User signed in success!",
-//                HttpStatus.OK);
-//    }
 
     @PostMapping("login")
     public ResponseEntity<AuthResponseDTO> login(
@@ -115,8 +79,12 @@ public class AuthController {
                         loginDto.getPassword()
                 ));
 
+        System.out.println("Auth: " + authentication);
+
         SecurityContextHolder.getContext()
                 .setAuthentication(authentication);
+
+
 
         String token = jwtGenerator.generateToken(authentication);
         return new ResponseEntity<>(new AuthResponseDTO(token),
