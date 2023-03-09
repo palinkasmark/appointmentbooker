@@ -6,8 +6,20 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useNavigate } from "react-router-dom";
 
-export default function Nav() {
+export default function Nav({ isLoggedIn }) {
+  const navigate = useNavigate();
+
+  const navigateTo = (page) => {
+    navigate(`/${page}`);
+  };
+
+  const logOut = () => {
+    localStorage.clear();
+    navigate("/");
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -22,9 +34,30 @@ export default function Nav() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            Appointment Booker
           </Typography>
-          <Button color="inherit">Login</Button>
+          {isLoggedIn ? (
+            <Button color="error" variant="contained" onClick={logOut}>
+              LogOut
+            </Button>
+          ) : (
+            <>
+              <Button
+                color="success"
+                variant="contained"
+                onClick={() => navigateTo("login")}
+              >
+                Login
+              </Button>
+              <Button
+                color="success"
+                variant="contained"
+                onClick={() => navigateTo("signup")}
+              >
+                Sign Up
+              </Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
