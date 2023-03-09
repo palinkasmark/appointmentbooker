@@ -9,6 +9,11 @@ const Main = () => {
     navigate(`/${page}`);
   };
 
+  const logOut = () => {
+    localStorage.clear();
+    navigate("/");
+  }
+
   return (
     <div>
       <Button
@@ -33,6 +38,13 @@ const Main = () => {
         color="success"
       >
         Home
+      </Button>
+      <Button
+        onClick={logOut}
+        variant="contained"
+        color="success"
+      >
+        LogOut
       </Button>
     </div>
   );
