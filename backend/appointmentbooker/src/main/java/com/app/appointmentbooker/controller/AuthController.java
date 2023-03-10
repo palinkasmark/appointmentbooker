@@ -1,8 +1,7 @@
 package com.app.appointmentbooker.controller;
 
 import com.app.appointmentbooker.dto.AuthResponseDTO;
-import com.app.appointmentbooker.dto.LoginDto;
-import com.app.appointmentbooker.dto.RegisterDto;
+import com.app.appointmentbooker.dto.UserDto;
 import com.app.appointmentbooker.model.Role;
 import com.app.appointmentbooker.model.UserEntity;
 import com.app.appointmentbooker.repository.RoleRepository;
@@ -45,64 +44,41 @@ public class AuthController {
 
 
     @PostMapping("register")
-    public ResponseEntity<?> register(
-            @RequestBody RegisterDto registerDto
-            ) {
-        if(userRepository.existsByUsername(registerDto.getUsername())) {
-            return new ResponseEntity<>("Username is taken!",
-                    HttpStatus.BAD_REQUEST);
-        }
-
-        UserEntity user = new UserEntity();
-        user.setUsername(registerDto.getUsername());
-        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-
-        Role roles = roleRepository.findByName("USER").get();
-        user.setRoles(Collections.singletonList(roles));
-
-        if(userRepository.save(user) != null){
-                Authentication authentication = authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                registerDto.getUsername(),
-                                registerDto.getPassword())
-                );
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                String token = jwtGenerator.generateToken(authentication);
-                return new ResponseEntity<>(
-                        new AuthResponseDTO(token), HttpStatus.OK
-                );
-        }else{
-                // return new ResponseEntity<>("User registered success!",
-                // HttpStatus.OK);
-                return new ResponseEntity<>("Something went wrong!",
-                HttpStatus.BAD_REQUEST);
-        }
-        
-
-        
+    public ResponseEntity<?> register(@RequestBody UserDto userDto ) {
+        if(userRepository.existsByUsername(userDto.getUsername())) {
+                return new ResponseEntity<>("Username is taken!",
+                        HttpStatus.BAD_REQUEST);
+            }
+    
+            UserEntity user = new UserEntity();
+            user.setUsername(userDto.getUsername());
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+    
+            Role roles = roleRepository.findByName("USER").get();
+            user.setRoles(Collections.singletonList(roles));
+    
+            userRepository.save(user);
+            return authUser(userDto);
     }
 
     @PostMapping("login")
-    public ResponseEntity<AuthResponseDTO> login(
-            @RequestBody LoginDto loginDto
-            ){
+    public ResponseEntity<?> login(@RequestBody UserDto userDto){
+        return authUser(userDto);
+    }
+
+
+    private ResponseEntity<?> authUser(UserDto userDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginDto.getUsername(),
-                        loginDto.getPassword()
+                        userDto.getUsername(),
+                        userDto.getPassword()
                 ));
 
-        SecurityContextHolder.getContext()
-                .setAuthentication(authentication);
-
-
-
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
         return new ResponseEntity<>(new AuthResponseDTO(token),
                 HttpStatus.OK);
     }
-
-
 
 
 
