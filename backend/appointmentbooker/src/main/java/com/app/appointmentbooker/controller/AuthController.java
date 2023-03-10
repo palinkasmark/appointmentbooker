@@ -45,7 +45,7 @@ public class AuthController {
 
 
     @PostMapping("register")
-    public ResponseEntity<String> register(
+    public ResponseEntity<?> register(
             @RequestBody RegisterDto registerDto
             ) {
         if(userRepository.existsByUsername(registerDto.getUsername())) {
@@ -60,10 +60,26 @@ public class AuthController {
         Role roles = roleRepository.findByName("USER").get();
         user.setRoles(Collections.singletonList(roles));
 
-        userRepository.save(user);
+        if(userRepository.save(user) != null){
+                Authentication authentication = authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                registerDto.getUsername(),
+                                registerDto.getPassword())
+                );
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                String token = jwtGenerator.generateToken(authentication);
+                return new ResponseEntity<>(
+                        new AuthResponseDTO(token), HttpStatus.OK
+                );
+        }else{
+                // return new ResponseEntity<>("User registered success!",
+                // HttpStatus.OK);
+                return new ResponseEntity<>("Something went wrong!",
+                HttpStatus.BAD_REQUEST);
+        }
+        
 
-        return new ResponseEntity<>("User registered success!",
-                HttpStatus.OK);
+        
     }
 
     @PostMapping("login")

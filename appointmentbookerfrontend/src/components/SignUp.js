@@ -1,15 +1,20 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { useState } from "react";
 import api from "../api/api";
+import { useNavigate } from "react-router";
 
 function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
+
     const newUser = {
       username: username,
       password: password,
@@ -18,30 +23,44 @@ function SignUp() {
     try {
       const response = await api.post("/api/auth/register", newUser);
       console.log(response);
+      const data = response.data;
+      const token = data.accessToken;
+      localStorage.clear();
+      localStorage.setItem("user-token", token);
+      setTimeout(() => {
+        setIsLoading(false);
+        navigate("/");
+      }, 1000);
     } catch (err) {
       console.log(`Error: ${err.message}`);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
       <h2>Sign up</h2>
-      <div>
-        <TextField
-          required
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <TextField
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button type="submit" variant="contained" color="success">
-          Submit
-        </Button>
-      </div>
-    </form>
+      {isLoading ? (
+        <CircularProgress />
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <div>
+            <TextField
+              required
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <TextField
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button type="submit" variant="contained" color="success">
+              Submit
+            </Button>
+          </div>
+        </form>
+      )}
+    </div>
   );
 }
 
