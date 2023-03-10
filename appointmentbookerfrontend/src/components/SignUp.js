@@ -33,6 +33,11 @@ function SignUp() {
       }, 1000);
     } catch (err) {
       console.log(`Error: ${err.message}`);
+      if (err.response.status === 409) {
+        alert(`${newUser.username} is already exists!`);
+        setIsLoading(false);
+        navigate("/signup");
+      }
     }
   };
 
@@ -51,6 +56,7 @@ function SignUp() {
             />
             <TextField
               required
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />

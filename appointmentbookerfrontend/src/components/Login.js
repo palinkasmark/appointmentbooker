@@ -22,6 +22,7 @@ const Login = () => {
 
     try {
       const response = await api.post("api/auth/login", user);
+      console.log(response);
       const data = response.data;
       const token = data.accessToken;
       localStorage.clear();
@@ -33,6 +34,12 @@ const Login = () => {
       }, 1000);
     } catch (err) {
       console.log(`Error: ${err.message}`);
+      console.log(err.response.status);
+      if (err.response.status === 401) {
+        alert(`${user.username} user not registered!`);
+        setIsLoading(false);
+        navigate("/login");
+      }
     }
   };
 
@@ -51,6 +58,7 @@ const Login = () => {
             />
             <TextField
               required
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />

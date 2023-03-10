@@ -47,7 +47,7 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody UserDto userDto ) {
         if(userRepository.existsByUsername(userDto.getUsername())) {
                 return new ResponseEntity<>("Username is taken!",
-                        HttpStatus.BAD_REQUEST);
+                        HttpStatus.CONFLICT);
             }
     
             UserEntity user = new UserEntity();
