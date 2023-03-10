@@ -1,7 +1,8 @@
 import React from "react";
 
 const Home = () => {
-  return <div>Welcome home</div>;
+  const username = localStorage.getItem("username");
+  return <div>Welcome home {username} </div>;
 };
 
 export default Home;

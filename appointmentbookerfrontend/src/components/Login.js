@@ -27,6 +27,7 @@ const Login = () => {
       const token = data.accessToken;
       localStorage.clear();
       localStorage.setItem("user-token", token);
+      localStorage.setItem("username", user.username);
 
       setTimeout(() => {
         setIsLoading(false);

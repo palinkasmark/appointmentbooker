@@ -27,6 +27,7 @@ function SignUp() {
       const token = data.accessToken;
       localStorage.clear();
       localStorage.setItem("user-token", token);
+      localStorage.setItem("username", newUser.username);
       setTimeout(() => {
         setIsLoading(false);
         navigate("/");
