@@ -32,13 +32,10 @@ public class UserEntity {
     private List<Role> roles = new ArrayList<>();
 
 
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", roles=" + roles +
-                '}';
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_bookings",
+                joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+                inverseJoinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "id"))
+    private List<BookingDate> bookings = new ArrayList<>();
+
 }
