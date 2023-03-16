@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
@@ -12,7 +12,7 @@ const Booking = () => {
     try {
       const response = await api.post(
         "/savebooking",
-        { date: "5030-01-01" },
+        { date: value.$d },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("user-token")}`,
