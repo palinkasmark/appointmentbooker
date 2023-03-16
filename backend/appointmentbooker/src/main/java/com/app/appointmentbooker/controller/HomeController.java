@@ -34,7 +34,7 @@ public class HomeController {
         return userService.getUsers();
     }
 
-    @PostMapping("save-booking")
+    @PostMapping("/savebooking")
     public String saveBooking(@RequestBody BookingDate date) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         UserEntity user = userService.getUserByUsername(username);
