@@ -43,8 +43,15 @@ public class HomeController {
 
         bookingDateService.saveBooking(date);
         return "Succes";
+    }
 
 
+
+    @GetMapping("/getdates")
+    public void getReservedDatesByUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        System.out.println(userService.getReservedDatesByUser(username));
     }
 
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -28,5 +29,7 @@ public class UserService {
         return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username not found."));
     }
 
-
+    public List<?> getReservedDatesByUser(String username) {
+        return userRepository.getReservedDatesByUser(username);
+    }
 }
