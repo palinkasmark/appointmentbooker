@@ -25,11 +25,27 @@ const Booking = () => {
     }
   };
 
+  const getBookings = async () => {
+    try {
+      const response = await api.get("/getdates", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("user-token")}`,
+        },
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
+    }
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar value={value} onChange={(newValue) => setValue(newValue)} />
       <Button onClick={saveBooking} variant="contained" color="info">
         Save
+      </Button>
+      <Button onClick={getBookings} variant="contained" color="info">
+        Get Bookings
       </Button>
     </LocalizationProvider>
   );

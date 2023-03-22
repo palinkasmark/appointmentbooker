@@ -38,4 +38,12 @@ public class UserEntity {
                 inverseJoinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "id"))
     private List<BookingDate> bookings = new ArrayList<>();
 
+
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_shop",
+                joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+                inverseJoinColumns = @JoinColumn(name = "shop_id", referencedColumnName = "id"))
+    private Shop shop;
+
 }
