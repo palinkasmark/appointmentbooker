@@ -21,12 +21,14 @@ public class ShopService {
     }
 
     public void saveShop(Shop shop) {
-        setAppointments(shop);
+        if(!shop.getProducts().isEmpty()) {
+            setAppointments(shop);
+        }
         shopRepository.save(shop);
     }
 
 
-    private void setAppointments(Shop shop) {
+    public void setAppointments(Shop shop) {
         Product product = shop.getProducts().get(shop.getProducts().size() - 1);
         LocalTime duration = product.getDuration();
         LocalTime openFrom = shop.getOpenFrom();

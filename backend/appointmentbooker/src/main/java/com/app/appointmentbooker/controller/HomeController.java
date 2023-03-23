@@ -1,9 +1,11 @@
 package com.app.appointmentbooker.controller;
 
 import com.app.appointmentbooker.model.BookingDate;
+import com.app.appointmentbooker.model.Product;
 import com.app.appointmentbooker.model.Shop;
 import com.app.appointmentbooker.model.UserEntity;
 import com.app.appointmentbooker.service.BookingDateService;
+import com.app.appointmentbooker.service.ProductService;
 import com.app.appointmentbooker.service.ShopService;
 import com.app.appointmentbooker.service.UserService;
 import org.apache.catalina.User;
@@ -24,12 +26,14 @@ public class HomeController {
     private final UserService userService;
     private final BookingDateService bookingDateService;
     private final ShopService shopService;
+    private final ProductService productService;
 
     @Autowired
-    public HomeController(UserService userService, BookingDateService bookingDateService, ShopService shopService) {
+    public HomeController(UserService userService, BookingDateService bookingDateService, ShopService shopService, ProductService productService) {
         this.userService = userService;
         this.bookingDateService = bookingDateService;
         this.shopService = shopService;
+        this.productService = productService;
     }
 
 
@@ -71,6 +75,17 @@ public class HomeController {
         
         return "Success";
     }
+
+    @PostMapping("/saveproduct") 
+    public String saveProductToShop(@RequestBody Product product) {
+        UserEntity user = userService.getUserByUsername();
+        Shop shop = user.getShop();
+        shop.getProducts().add(product);
+        shopService.setAppointments(shop);
+        productService.saveProduct(product);
+        return "Success";
+    }
+    
 
     
 }
