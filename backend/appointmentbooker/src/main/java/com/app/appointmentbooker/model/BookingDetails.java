@@ -7,14 +7,15 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "bookingDate")
+@Table(name = "bookingDetails")
 @Getter
 @Setter
-public class BookingDate {
+public class BookingDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String name;
     private LocalDate date;
 
 }

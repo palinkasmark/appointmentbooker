@@ -1,9 +1,11 @@
 package com.app.appointmentbooker.repository;
 
-import com.app.appointmentbooker.model.BookingDate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.app.appointmentbooker.model.BookingDetails;
+
 @Repository
-public interface BookingDateRepository extends JpaRepository<BookingDate, Integer> {
+public interface BookingDetailsRepository extends JpaRepository<BookingDetails, Integer>{
+    
 }

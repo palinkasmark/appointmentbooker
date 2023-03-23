@@ -8,7 +8,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-//@Data
 @Getter
 @Setter
 @NoArgsConstructor
@@ -36,7 +35,7 @@ public class UserEntity {
     @JoinTable(name = "user_bookings",
                 joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "id"))
-    private List<BookingDate> bookings = new ArrayList<>();
+    private List<BookingDetails> bookingDetails = new ArrayList<>();
 
 
 
