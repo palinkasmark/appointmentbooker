@@ -139,11 +139,16 @@ public class HomeController {
     }
 
 
-    // @GetMapping("/getproduct")
-    // public Product getProductByName(@RequestParam(name = "productName") String productName) {
-    //     System.out.println(productService.finProductByName(productName));
-    //     return productService.finProductByName(productName);
-    // }
+    @GetMapping("/getproduct")
+    public Product getProductByName(@RequestParam(name = "productName") String productName) {
+        System.out.println(productService.finProductByName(productName));
+        return productService.finProductByName(productName);
+    }
+
+    @GetMapping("/products")
+    public List<Product> getProducts() {
+        return productService.getProducts();
+    }
 
    
 }

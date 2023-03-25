@@ -8,6 +8,7 @@ import ProtectedRoute from "./util/ProtectedRoute";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Booking from "./components/Booking";
+import Products from "./components/Products";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -41,6 +42,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Booking />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="products"
+          element={
+            <ProtectedRoute>
+              <Products />
             </ProtectedRoute>
           }
         />

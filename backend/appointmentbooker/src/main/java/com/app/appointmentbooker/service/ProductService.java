@@ -1,5 +1,7 @@
 package com.app.appointmentbooker.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,10 @@ public class ProductService {
 
     public Product finProductByName(String name){
         return productRepository.findByName(name);
+    }
+
+    public List<Product> getProducts() {
+        return productRepository.findAll();
     }
 
     // private void setAppointments(Shop shop) {

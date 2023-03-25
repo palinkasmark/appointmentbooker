@@ -4,6 +4,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { Button } from "@mui/material";
 import api from "../api/api";
+import Products from "./Products";
 
 const Booking = () => {
   const [value, setValue] = useState(dayjs(new Date()));
@@ -40,6 +41,7 @@ const Booking = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Products />
       <DateCalendar value={value} onChange={(newValue) => setValue(newValue)} />
       <Button onClick={saveBooking} variant="contained" color="info">
         Save
