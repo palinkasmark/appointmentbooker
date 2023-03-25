@@ -1,45 +1,45 @@
-import { Button, CircularProgress } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { Button, CircularProgress } from "@mui/material";
 import api from "../api/api";
 
 const Products = () => {
-  const [products, setProducts] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [products, setProducts] = useState([]);
 
-  const getProducts = async () => {
-    setIsLoading(true);
-    try {
-      const response = await api.get("products", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("user-token")}`,
-        },
-      });
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const response = await api.get("products", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("user-token")}`,
+          },
+        });
 
-      setTimeout(() => {
-        setProducts(response.data);
-        setIsLoading(false);
-      }, 5000);
-    } catch (err) {
-      console.log(`Error: ${err.message}`);
-    }
-  };
+        console.log(response.data);
+        setTimeout(() => {
+          setIsLoading(false);
+          setProducts(response.data);
+        }, 2000);
+      } catch (err) {
+        console.log(`Error: ${err.message}`);
+      }
+    };
+
+    getProducts();
+  }, []);
 
   return (
-    <div>
-      <Button color="error" variant="contained" onClick={getProducts}>
-        Products
-      </Button>
-
+    <>
       {isLoading ? (
         <CircularProgress />
       ) : (
         <div>
-          {products.map((item) => {
-            return <p key={item.id}>{item.name}</p>;
+          {products.map((product) => {
+            return <p key={product.id}>{product.name}</p>;
           })}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

@@ -42,13 +42,13 @@ const Booking = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Products />
-      <DateCalendar value={value} onChange={(newValue) => setValue(newValue)} />
+      {/* <DateCalendar value={value} onChange={(newValue) => setValue(newValue)} />
       <Button onClick={saveBooking} variant="contained" color="info">
         Save
       </Button>
       <Button onClick={getBookings} variant="contained" color="info">
         Get Bookings
-      </Button>
+      </Button> */}
     </LocalizationProvider>
   );
 };

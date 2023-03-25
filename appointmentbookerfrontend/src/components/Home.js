@@ -15,7 +15,7 @@ const Home = () => {
         color="info"
         onClick={() => navigate("booking")}
       >
-        Calendar
+        Booking
       </Button>
     </>
   );
