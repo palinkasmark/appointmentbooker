@@ -17,13 +17,13 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-
-
-
     public void saveProduct(Product product) {
         productRepository.save(product);
     }
 
+    public Product finProductByName(String name){
+        return productRepository.findByName(name);
+    }
 
     // private void setAppointments(Shop shop) {
     //     Product product = shop.getProducts().get(shop.getProducts().size() - 1);
