@@ -16,5 +16,4 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
         value = "select * from product where name = :name", 
         nativeQuery = true)
     Product findByName(@Param("name") String name);
-
 }

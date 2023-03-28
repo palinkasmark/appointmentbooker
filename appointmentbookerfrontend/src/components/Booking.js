@@ -1,62 +1,40 @@
 import React, { useState } from "react";
-import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import { Button } from "@mui/material";
-import api from "../api/api";
-import Products from "./Products";
+import { Button, Box, TextField } from "@mui/material";
 import { useLocation } from "react-router";
 
 const Booking = () => {
-  const [value, setValue] = useState(dayjs(new Date()));
   const { state } = useLocation();
-  const { id, name, time } = state;
+  const { id, time } = state;
+  const [name, setName] = useState("");
 
-  const saveBooking = async () => {
-    try {
-      const response = await api.post(
-        "/savebooking",
-        { date: value.$d },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("user-token")}`,
-          },
-        }
-      );
-      console.log(response);
-    } catch (err) {
-      console.log(`Error: ${err.message}`);
-    }
-  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  const getBookings = async () => {
-    try {
-      const response = await api.get("/getdates", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("user-token")}`,
-        },
-      });
-      console.log(response);
-    } catch (err) {
-      console.log(`Error: ${err.message}`);
-    }
+    const bookingDetails = {
+      name: name,
+      date: time,
+    };
+
+    // const response = await api.post("savebooking", bookingDetails);
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div>BOOKING PAGE</div>
-      <p>{id}</p>
-      <p>{name}</p>
-      <p>{time}</p>
-      {/* <Products /> */}
-      {/* <DateCalendar value={value} onChange={(newValue) => setValue(newValue)} />
-      <Button onClick={saveBooking} variant="contained" color="info">
-        Save
-      </Button>
-      <Button onClick={getBookings} variant="contained" color="info">
-        Get Bookings
-      </Button> */}
-    </LocalizationProvider>
+    <>
+      <h2>Booking details</h2>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          required
+          label="Required"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <TextField disabled label="Time" value={time} />
+        <Button type="submit" color="success" variant="contained">
+          Save
+        </Button>
+      </form>
+    </>
   );
 };
 

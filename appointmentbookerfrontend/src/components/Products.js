@@ -87,7 +87,6 @@ const Products = () => {
                 navigate("/booking", {
                   state: {
                     id: product.id,
-                    name: product.name,
                     time: time,
                   },
                 })
