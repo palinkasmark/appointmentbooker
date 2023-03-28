@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Button, TextField } from "@mui/material";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import api from "../api/api";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const Booking = () => {
   const { state } = useLocation();
   const { id, time } = state;
   const [name, setName] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -30,7 +32,17 @@ const Booking = () => {
 
   return (
     <>
-      <h2>Booking details</h2>
+      <h2>
+        Booking details{" "}
+        <Button
+          color="warning"
+          variant="contained"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowBackIcon fontSize="large" />
+        </Button>
+      </h2>
+
       <form onSubmit={handleSubmit}>
         <TextField
           required
