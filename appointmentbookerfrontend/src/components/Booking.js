@@ -5,9 +5,12 @@ import dayjs from "dayjs";
 import { Button } from "@mui/material";
 import api from "../api/api";
 import Products from "./Products";
+import { useLocation } from "react-router";
 
 const Booking = () => {
   const [value, setValue] = useState(dayjs(new Date()));
+  const { state } = useLocation();
+  const { id, name, time } = state;
 
   const saveBooking = async () => {
     try {
@@ -41,7 +44,11 @@ const Booking = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Products />
+      <div>BOOKING PAGE</div>
+      <p>{id}</p>
+      <p>{name}</p>
+      <p>{time}</p>
+      {/* <Products /> */}
       {/* <DateCalendar value={value} onChange={(newValue) => setValue(newValue)} />
       <Button onClick={saveBooking} variant="contained" color="info">
         Save

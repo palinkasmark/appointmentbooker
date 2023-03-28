@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Button, CircularProgress } from "@mui/material";
 import api from "../api/api";
+import { useNavigate } from "react-router";
 
 const Products = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProduct, setLoadingProduct] = useState(undefined);
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -30,10 +32,7 @@ const Products = () => {
     getProducts();
   }, []);
 
-  const startBooking = async (productId) => {
-    console.log("Start booking");
-    console.log(productId);
-
+  const listTimes = async (productId) => {
     setLoadingProduct(true);
     try {
       const response = await api.get("getproductby?id=" + productId, {
@@ -41,7 +40,7 @@ const Products = () => {
           Authorization: `Bearer ${localStorage.getItem("user-token")}`,
         },
       });
-      console.log(response.data);
+      // console.log(response.data);
       setTimeout(() => {
         setLoadingProduct(false);
         setProduct(response.data);
@@ -61,7 +60,7 @@ const Products = () => {
             return (
               <p key={product.id}>
                 <Button
-                  onClick={() => startBooking(product.id)}
+                  onClick={() => listTimes(product.id)}
                   color="info"
                   variant="contained"
                 >
@@ -77,7 +76,27 @@ const Products = () => {
       ) : loadingProduct ? (
         <CircularProgress />
       ) : (
-        <div>{product.availableDates}</div>
+        <div>
+          {product.availableDates.map((time) => (
+            <Button
+              key={time}
+              color="success"
+              variant="contained"
+              style={{ margin: "2px" }}
+              onClick={() =>
+                navigate("/booking", {
+                  state: {
+                    id: product.id,
+                    name: product.name,
+                    time: time,
+                  },
+                })
+              }
+            >
+              {time}
+            </Button>
+          ))}
+        </div>
       )}
     </>
   );

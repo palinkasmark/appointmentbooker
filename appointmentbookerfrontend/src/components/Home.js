@@ -13,9 +13,9 @@ const Home = () => {
       <Button
         variant="contained"
         color="info"
-        onClick={() => navigate("booking")}
+        onClick={() => navigate("products")}
       >
-        Booking
+        Products
       </Button>
     </>
   );
