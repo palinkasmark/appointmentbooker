@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -139,10 +140,10 @@ public class HomeController {
     }
 
 
-    @GetMapping("/getproduct")
-    public Product getProductByName(@RequestParam(name = "productName") String productName) {
-        System.out.println(productService.finProductByName(productName));
-        return productService.finProductByName(productName);
+    @GetMapping("/getproductby")
+    public Optional<Product> getProductById(@RequestParam(name = "id") Integer id) {
+        System.out.println(productService.findProductById(id));
+        return productService.findProductById(id);
     }
 
     @GetMapping("/products")
