@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Button, Box, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { useLocation } from "react-router";
+import api from "../api/api";
 
 const Booking = () => {
   const { state } = useLocation();
@@ -15,7 +16,16 @@ const Booking = () => {
       date: time,
     };
 
-    // const response = await api.post("savebooking", bookingDetails);
+    try {
+      const response = await api.post("savebooking?id=" + id, bookingDetails, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("user-token")}`,
+        },
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
+    }
   };
 
   return (
