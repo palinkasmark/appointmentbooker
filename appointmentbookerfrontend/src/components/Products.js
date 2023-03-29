@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Button, CircularProgress } from "@mui/material";
 import api from "../api/api";
 import { useNavigate } from "react-router";
+import dayjs, { Dayjs } from "dayjs";
+import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { StaticDatePicker } from "@mui/x-date-pickers";
 
 const Products = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -9,6 +13,7 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState({});
   const navigate = useNavigate();
+  const [value, setValue] = useState(dayjs(new Date()));
 
   useEffect(() => {
     const getProducts = async () => {
@@ -19,7 +24,7 @@ const Products = () => {
           },
         });
 
-        console.log(response.data);
+        // console.log(response.data);
         setTimeout(() => {
           setIsLoading(false);
           setProducts(response.data);
@@ -30,7 +35,8 @@ const Products = () => {
     };
 
     getProducts();
-  }, []);
+    console.log(value.$d);
+  }, [value]);
 
   const listTimes = async (productId) => {
     setLoadingProduct(true);
@@ -76,7 +82,15 @@ const Products = () => {
       ) : loadingProduct ? (
         <CircularProgress />
       ) : (
-        <div>
+        <div style={{ border: "2px solid black" }}>
+          <div style={{ border: "2px solid red" }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateCalendar
+                value={value}
+                onChange={(newValue) => setValue(newValue)}
+              />
+            </LocalizationProvider>
+          </div>
           {product.availableDates.map((time) => (
             <Button
               key={time}
