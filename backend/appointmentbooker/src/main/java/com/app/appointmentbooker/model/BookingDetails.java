@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -17,7 +18,8 @@ public class BookingDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private LocalTime date;
+    private LocalDate date;
+    private LocalTime time;
 
     // @ManyToOne
     // @JoinTable(name = "product_bookings",

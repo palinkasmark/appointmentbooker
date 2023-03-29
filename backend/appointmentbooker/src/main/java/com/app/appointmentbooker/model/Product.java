@@ -22,8 +22,7 @@ public class Product {
     private String name;
     private LocalTime duration;
     private List<LocalTime> availableDates = new ArrayList<>();
-    // private List<LocalTime> reservedDates = new ArrayList<>();
-
+    
     private int price;
 
     @OneToMany
@@ -31,12 +30,6 @@ public class Product {
                 joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "id"))
     private List<BookingDetails> bookingDetails = new ArrayList<>();
-
-    @Override
-    public String toString() {
-        return "Product [id=" + id + ", name=" + name + ", duration=" + duration + ", availableDates=" + availableDates
-                + ", price=" + price + ", bookingDetails=" + bookingDetails + "]";
-    }
 
 
     

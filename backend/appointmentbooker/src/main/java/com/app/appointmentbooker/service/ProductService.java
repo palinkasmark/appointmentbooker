@@ -36,19 +36,5 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    // private void setAppointments(Shop shop) {
-    //     Product product = shop.getProducts().get(shop.getProducts().size() - 1);
-    //     LocalTime duration = product.getDuration();
-    //     LocalTime openFrom = shop.getOpenFrom();
-    //     LocalTime openTo = shop.getOpenTo();
-
-    //     LocalTime newAppointment = openFrom; 
-        
-    //     while(newAppointment.getHour() < openTo.getHour()) {
-    //         product.getAvailableDates().add(newAppointment);
-    //         LocalTime lastAppointment = product.getAvailableDates().get(product.getAvailableDates().size() - 1);
-    //         newAppointment = lastAppointment.plusHours(duration.getHour()).plusMinutes(duration.getMinute());
-    //     }
-    // }
     
 }

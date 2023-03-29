@@ -8,7 +8,6 @@ import com.app.appointmentbooker.service.BookingDetailsService;
 import com.app.appointmentbooker.service.ProductService;
 import com.app.appointmentbooker.service.ShopService;
 import com.app.appointmentbooker.service.UserService;
-import com.app.appointmentbooker.utils.RequestWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -77,7 +76,7 @@ public class HomeController {
         product.getBookingDetails().add(bookingDetails);
 
         List<LocalTime> newAvailableDates = product.getAvailableDates().stream()
-                .filter(element -> !element.equals(bookingDetails.getDate()))
+                .filter(element -> !element.equals(bookingDetails.getTime()))
                 .collect(Collectors.toList());
         product.setAvailableDates(newAvailableDates);
         bookingDetailsService.saveBooking(bookingDetails);
