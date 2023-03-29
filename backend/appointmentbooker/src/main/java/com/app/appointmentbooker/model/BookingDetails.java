@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name = "bookingDetails")
 @Getter
@@ -16,18 +18,10 @@ public class BookingDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "booking_details_id")
     private int id;
     private String name;
     private LocalDate date;
     private LocalTime time;
-
-    // @ManyToOne
-    // @JoinTable(name = "product_bookings",
-    //             joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
-    //             inverseJoinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "id"))
-    // private Product product;
-
-
-    
 
 }

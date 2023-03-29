@@ -13,7 +13,7 @@ import com.app.appointmentbooker.model.Product;
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query(
-        value = "select * from product where name = :name", 
+        value = "select * from product where productName = :productName", 
         nativeQuery = true)
-    Product findByName(@Param("name") String name);
+    Product findByProductName(@Param("productName") String productName);
 }

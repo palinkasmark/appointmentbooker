@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -44,6 +45,14 @@ public class HomeController {
     @GetMapping("/getdates")
     public List<?> getReservedDatesByUser() {
         return userService.getReservedDatesByUser();
+    }
+
+    @GetMapping("/getbookingdetailsbydate")
+    public List<BookingDetails> getBookingDetailsByDate(
+        @RequestParam("id") Integer id,
+        @RequestParam("date") LocalDate date
+    ) {
+        return bookingDetailsService.getBookingDetailsByDate(id, date);
     }
 
 

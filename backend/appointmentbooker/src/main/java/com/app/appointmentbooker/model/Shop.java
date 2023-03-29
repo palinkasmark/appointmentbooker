@@ -29,7 +29,7 @@ public class Shop {
     @Cascade(CascadeType.ALL)
     @JoinTable(name = "shop_products",
                 joinColumns = @JoinColumn(name = "shop_id", referencedColumnName = "id"),
-                inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"))
+                inverseJoinColumns = @JoinColumn(name = "prod_id", referencedColumnName = "product_id"))
     private List<Product> products = new ArrayList<>();
     
 }

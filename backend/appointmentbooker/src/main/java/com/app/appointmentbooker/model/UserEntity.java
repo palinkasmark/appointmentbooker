@@ -34,7 +34,7 @@ public class UserEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_bookings",
                 joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-                inverseJoinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "id"))
+                inverseJoinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "booking_details_id"))
     private List<BookingDetails> bookingDetails = new ArrayList<>();
 
 

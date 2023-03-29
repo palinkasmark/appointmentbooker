@@ -18,8 +18,9 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private int id;
-    private String name;
+    private String productName;
     private LocalTime duration;
     private List<LocalTime> availableDates = new ArrayList<>();
     
@@ -27,8 +28,8 @@ public class Product {
 
     @OneToMany
     @JoinTable(name = "product_bookings",
-                joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
-                inverseJoinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "id"))
+                joinColumns = @JoinColumn(name = "prod_id", referencedColumnName = "product_id"),
+                inverseJoinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "booking_details_id"))
     private List<BookingDetails> bookingDetails = new ArrayList<>();
 
 
