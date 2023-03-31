@@ -6,7 +6,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const Booking = () => {
   const { state } = useLocation();
-  const { id, time } = state;
+  const { id, date, time } = state;
   const [name, setName] = useState("");
   const navigate = useNavigate();
 
@@ -15,7 +15,8 @@ const Booking = () => {
 
     const bookingDetails = {
       name: name,
-      date: time,
+      date: date,
+      time: time,
     };
 
     try {
@@ -24,7 +25,7 @@ const Booking = () => {
           Authorization: `Bearer ${localStorage.getItem("user-token")}`,
         },
       });
-      console.log(response);
+      console.log(response.data);
     } catch (err) {
       console.log(`Error: ${err.message}`);
     }
@@ -52,6 +53,7 @@ const Booking = () => {
           onChange={(e) => setName(e.target.value)}
         />
         <TextField disabled label="Time" value={time} />
+        <TextField disabled label="Date" value={date} />
         <Button type="submit" color="success" variant="contained">
           Save
         </Button>

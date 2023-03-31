@@ -84,10 +84,10 @@ public class HomeController {
         Product product = productService.findProductById(id).get();
         product.getBookingDetails().add(bookingDetails);
 
-        List<LocalTime> newAvailableDates = product.getAvailableDates().stream()
-                .filter(element -> !element.equals(bookingDetails.getTime()))
-                .collect(Collectors.toList());
-        product.setAvailableDates(newAvailableDates);
+        // List<LocalTime> newAvailableDates = product.getAvailableDates().stream()
+        //         .filter(element -> !element.equals(bookingDetails.getTime()))
+        //         .collect(Collectors.toList());
+        // product.setAvailableDates(newAvailableDates);
         bookingDetailsService.saveBooking(bookingDetails);
         return "Success booking";
     }

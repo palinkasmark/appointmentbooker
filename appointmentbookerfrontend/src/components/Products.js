@@ -2,18 +2,21 @@ import React, { useEffect, useState } from "react";
 import { Button, CircularProgress } from "@mui/material";
 import api from "../api/api";
 import { useNavigate } from "react-router";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { StaticDatePicker } from "@mui/x-date-pickers";
 
 const Products = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProduct, setLoadingProduct] = useState(undefined);
+  const [loadingTimes, setLoadingTimes] = useState();
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState({});
+  const [productId, setProductId] = useState();
   const navigate = useNavigate();
   const [value, setValue] = useState(dayjs(new Date()));
+  const [freeTimes, setFreeTimes] = useState();
+  const [selectedDate, setSelectedDate] = useState();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -24,7 +27,6 @@ const Products = () => {
           },
         });
 
-        // console.log(response.data);
         setTimeout(() => {
           setIsLoading(false);
           setProducts(response.data);
@@ -35,24 +37,68 @@ const Products = () => {
     };
 
     getProducts();
-    console.log(value.$d);
-  }, [value]);
+  }, []);
 
-  const listTimes = async (productId) => {
+  const getProductById = async (productId) => {
     setLoadingProduct(true);
+    setProductId(productId);
     try {
       const response = await api.get("getproductby?id=" + productId, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("user-token")}`,
         },
       });
-      // console.log(response.data);
+      setProduct(response.data);
       setTimeout(() => {
         setLoadingProduct(false);
-        setProduct(response.data);
-      }, 2000);
+      }, 1000);
     } catch (err) {
-      console.log(`Error ${err.message}`);
+      console.log(`Erro: ${err.message}`);
+    }
+  };
+
+  useEffect(() => {
+    let month = parseInt(value.$d.getMonth()) + 1;
+    let day = value.$d.getDate();
+
+    if (month < 10) {
+      month = "0" + month;
+    }
+    if (day < 10) {
+      day = "0" + day;
+    }
+    const selectedDate = value.$d.getFullYear() + "-" + month + "-" + day;
+    setSelectedDate(selectedDate);
+    getBookingDetails(selectedDate);
+  }, [product, value, productId]);
+
+  const getBookingDetails = async (selectedDate) => {
+    setLoadingTimes(true);
+    try {
+      const response = await api.get(
+        `getbookingdetailsbydate?id=${parseInt(
+          productId
+        )}&date=${selectedDate}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("user-token")}`,
+          },
+        }
+      );
+
+      let freeTimes = product.availableDates;
+      let reservedTimes = [];
+      response.data.forEach((element) => {
+        reservedTimes.push(element.time);
+      });
+
+      let newFreeTimes = freeTimes.filter(
+        (time) => !reservedTimes.includes(time)
+      );
+      setFreeTimes(newFreeTimes);
+      setLoadingTimes(false);
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
     }
   };
 
@@ -66,11 +112,11 @@ const Products = () => {
             return (
               <p key={product.id}>
                 <Button
-                  onClick={() => listTimes(product.id)}
+                  onClick={() => getProductById(product.id)}
                   color="info"
                   variant="contained"
                 >
-                  {product.name}
+                  {product.productName}
                 </Button>
               </p>
             );
@@ -91,24 +137,29 @@ const Products = () => {
               />
             </LocalizationProvider>
           </div>
-          {product.availableDates.map((time) => (
-            <Button
-              key={time}
-              color="success"
-              variant="contained"
-              style={{ margin: "2px" }}
-              onClick={() =>
-                navigate("/booking", {
-                  state: {
-                    id: product.id,
-                    time: time,
-                  },
-                })
-              }
-            >
-              {time}
-            </Button>
-          ))}
+          {loadingTimes ? (
+            <CircularProgress />
+          ) : (
+            freeTimes.map((time) => (
+              <Button
+                key={time}
+                color="success"
+                variant="contained"
+                style={{ margin: "2px" }}
+                onClick={() =>
+                  navigate("/booking", {
+                    state: {
+                      id: product.id,
+                      date: selectedDate,
+                      time: time,
+                    },
+                  })
+                }
+              >
+                {time}
+              </Button>
+            ))
+          )}
         </div>
       )}
     </>
