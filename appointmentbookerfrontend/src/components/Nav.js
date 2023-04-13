@@ -25,9 +25,19 @@ export default function Nav({ isLoggedIn }) {
           <Typography variant="h6">Appointment Booker</Typography>
 
           {isLoggedIn ? (
-            <Button color="error" variant="contained" onClick={logOut}>
-              LogOut
-            </Button>
+            <>
+              <Button color="error" variant="contained" onClick={logOut}>
+                LogOut
+              </Button>
+
+              <Button
+                color="success"
+                variant="contained"
+                onClick={() => navigateTo("newproduct")}
+              >
+                New Product
+              </Button>
+            </>
           ) : (
             <>
               <Button

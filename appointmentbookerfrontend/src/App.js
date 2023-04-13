@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Booking from "./components/Booking";
 import Products from "./components/Products";
+import NewProduct from "./components/NewProduct";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -50,6 +51,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Products />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="newproduct"
+          element={
+            <ProtectedRoute>
+              <NewProduct />
             </ProtectedRoute>
           }
         />

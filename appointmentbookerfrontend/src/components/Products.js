@@ -53,7 +53,7 @@ const Products = () => {
         setLoadingProduct(false);
       }, 1000);
     } catch (err) {
-      console.log(`Erro: ${err.message}`);
+      console.log(`Error: ${err.message}`);
     }
   };
 
@@ -74,6 +74,7 @@ const Products = () => {
 
   const getBookingDetails = async (selectedDate) => {
     setLoadingTimes(true);
+
     try {
       const response = await api.get(
         `getbookingdetailsbydate?id=${parseInt(
@@ -116,7 +117,7 @@ const Products = () => {
                   color="info"
                   variant="contained"
                 >
-                  {product.productName}
+                  {product.id}: {product.productName}
                 </Button>
               </p>
             );
