@@ -10,14 +10,23 @@ import { useNavigate } from "react-router-dom";
 import Booking from "./components/Booking";
 import Products from "./components/Products";
 import NewProduct from "./components/NewProduct";
+import jwt_decode from "jwt-decode";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate(); // don't know why but without this line not working the nav buttons
 
   useEffect(() => {
-    const isToken = localStorage.getItem("user-token");
-    if (!isToken || isToken === "undefined") {
+    const token = localStorage.getItem("user-token");
+
+    if (token) {
+      if (jwt_decode(token).exp * 1000 < new Date().getTime()) {
+        localStorage.clear();
+        navigate("login");
+      }
+    }
+
+    if (!token || token === "undefined") {
       setIsLoggedIn(false);
     } else {
       setIsLoggedIn(true);
@@ -27,6 +36,7 @@ function App() {
   return (
     <div className="App">
       <Nav isLoggedIn={isLoggedIn} />
+
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />

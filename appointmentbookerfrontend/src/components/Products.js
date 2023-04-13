@@ -6,6 +6,8 @@ import dayjs from "dayjs";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 const Products = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProduct, setLoadingProduct] = useState(undefined);
@@ -33,6 +35,10 @@ const Products = () => {
         }, 2000);
       } catch (err) {
         console.log(`Error: ${err.message}`);
+        if (err.response.status === 401) {
+          localStorage.clear();
+          navigate("/login");
+        }
       }
     };
 
@@ -54,6 +60,10 @@ const Products = () => {
       }, 1000);
     } catch (err) {
       console.log(`Error: ${err.message}`);
+      if (err.response.status === 401) {
+        localStorage.clear();
+        navigate("/login");
+      }
     }
   };
 
@@ -69,42 +79,53 @@ const Products = () => {
     }
     const selectedDate = value.$d.getFullYear() + "-" + month + "-" + day;
     setSelectedDate(selectedDate);
-    getBookingDetails(selectedDate);
+    if (productId) {
+      getBookingDetails(selectedDate);
+    }
   }, [product, value, productId]);
 
   const getBookingDetails = async (selectedDate) => {
     setLoadingTimes(true);
 
     try {
-      const response = await api.get(
-        `getbookingdetailsbydate?id=${parseInt(
-          productId
-        )}&date=${selectedDate}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("user-token")}`,
-          },
-        }
-      );
+      if (Object.keys(product).length !== 0) {
+        const response = await api.get(
+          `getbookingdetailsbydate?id=${parseInt(
+            productId
+          )}&date=${selectedDate}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("user-token")}`,
+            },
+          }
+        );
 
-      let freeTimes = product.availableDates;
-      let reservedTimes = [];
-      response.data.forEach((element) => {
-        reservedTimes.push(element.time);
-      });
+        let availableDates = product.availableDates;
+        let reservedTimes = [];
+        response.data.forEach((element) => {
+          reservedTimes.push(element.time);
+        });
 
-      let newFreeTimes = freeTimes.filter(
-        (time) => !reservedTimes.includes(time)
-      );
-      setFreeTimes(newFreeTimes);
-      setLoadingTimes(false);
+        let newFreeTimes = availableDates.filter(
+          (time) => !reservedTimes.includes(time)
+        );
+        setFreeTimes(newFreeTimes);
+        setLoadingTimes(false);
+      }
     } catch (err) {
       console.log(`Error: ${err.message}`);
+      if (err.response.status === 401) {
+        localStorage.clear();
+        navigate("/login");
+      }
     }
   };
 
   return (
     <>
+      <Button color="warning" variant="contained" onClick={() => navigate(-1)}>
+        <ArrowBackIcon fontSize="large" />
+      </Button>
       {isLoading ? (
         <CircularProgress />
       ) : (
