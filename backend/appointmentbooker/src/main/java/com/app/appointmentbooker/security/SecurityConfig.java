@@ -42,10 +42,35 @@ public class SecurityConfig {
                      "/api/auth/**"
              )
              .permitAll()
+             .and()
+             .authorizeHttpRequests()
+             .requestMatchers("/shops")
+             .permitAll()
+             .and()
+             .authorizeHttpRequests()
+             .requestMatchers("/getproductsbyshop")
+             .permitAll()
+             .and()
+             .authorizeHttpRequests()
+             .requestMatchers("/products")
+             .permitAll()
+             .and()
+             .authorizeHttpRequests()
+             .requestMatchers("/getproductby")
+             .permitAll()
+             .and()
+             .authorizeHttpRequests()
+             .requestMatchers("/getbookingdetailsbydate")
+             .permitAll()
+             .and()
+             .authorizeHttpRequests()
+             .requestMatchers("/savebooking")
+             .permitAll()
+
              .anyRequest().authenticated()
              .and()
              .httpBasic();
-
+             
      http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
      return http.build();

@@ -54,6 +54,13 @@ export default function Nav({ isLoggedIn }) {
               >
                 Sign Up
               </Button>
+              <Button
+                color="success"
+                variant="contained"
+                onClick={() => navigateTo("salons")}
+              >
+                Salons
+              </Button>
             </>
           )}
         </Toolbar>

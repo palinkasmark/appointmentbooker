@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Producer;
 import org.springframework.stereotype.Service;
 
 import com.app.appointmentbooker.model.Product;
@@ -34,6 +35,10 @@ public class ProductService {
 
     public List<Product> getProducts() {
         return productRepository.findAll();
+    }
+
+    public List<Product> getProductsByShop(Integer shopId) {
+        return productRepository.getProductsByShop(shopId);
     }
 
     

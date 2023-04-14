@@ -83,11 +83,6 @@ public class HomeController {
     ){
         Product product = productService.findProductById(id).get();
         product.getBookingDetails().add(bookingDetails);
-
-        // List<LocalTime> newAvailableDates = product.getAvailableDates().stream()
-        //         .filter(element -> !element.equals(bookingDetails.getTime()))
-        //         .collect(Collectors.toList());
-        // product.setAvailableDates(newAvailableDates);
         bookingDetailsService.saveBooking(bookingDetails);
         return "Success booking";
     }
@@ -102,6 +97,20 @@ public class HomeController {
     @GetMapping("/products")
     public List<Product> getProducts() {
         return productService.getProducts();
+    }
+
+    @GetMapping("/shops")
+    public List<Shop> getShops() {
+        return shopService.getShops();
+    }
+
+    @GetMapping("/getproductsbyshop")
+    public List<Product> getProductsByShop(@RequestParam(name = "id") Integer shopId) {
+        return productService.getProductsByShop(shopId);
+    }
+    @GetMapping("/getuser")
+    public UserEntity getUserByUsername() {
+        return userService.getUserByUsername();
     }
 
    

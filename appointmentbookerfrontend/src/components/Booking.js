@@ -21,9 +21,9 @@ const Booking = () => {
 
     try {
       const response = await api.post("savebooking?id=" + id, bookingDetails, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("user-token")}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${localStorage.getItem("user-token")}`,
+        // },
       });
       console.log(response.data);
     } catch (err) {

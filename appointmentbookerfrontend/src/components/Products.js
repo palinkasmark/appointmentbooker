@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, CircularProgress } from "@mui/material";
 import api from "../api/api";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import dayjs from "dayjs";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -19,30 +19,43 @@ const Products = () => {
   const [value, setValue] = useState(dayjs(new Date()));
   const [freeTimes, setFreeTimes] = useState();
   const [selectedDate, setSelectedDate] = useState();
+  const { state } = useLocation();
 
   useEffect(() => {
-    const getProducts = async () => {
+    const getProductsByShop = async () => {
+      const { id } = state;
       try {
-        const response = await api.get("products", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("user-token")}`,
-          },
-        });
-
+        const response = await api.get(`getproductsbyshop?id=${id}`);
         setTimeout(() => {
           setIsLoading(false);
           setProducts(response.data);
         }, 2000);
       } catch (err) {
         console.log(`Error: ${err.message}`);
-        if (err.response.status === 401) {
-          localStorage.clear();
-          navigate("/login");
-        }
       }
     };
 
-    getProducts();
+    const getProductsByUser = async () => {
+      try {
+        const response = await api.get("getuser", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("user-token")}`,
+          },
+        });
+        const user = response.data;
+        setTimeout(() => {
+          setIsLoading(false);
+          setProducts(user.shop.products);
+        }, 2000);
+      } catch (error) {
+        console.log(`Error: ${error.message}`);
+      }
+    };
+    if (localStorage.getItem("user-token")) {
+      getProductsByUser();
+    } else {
+      getProductsByShop();
+    }
   }, []);
 
   const getProductById = async (productId) => {
@@ -50,9 +63,9 @@ const Products = () => {
     setProductId(productId);
     try {
       const response = await api.get("getproductby?id=" + productId, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("user-token")}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${localStorage.getItem("user-token")}`,
+        // },
       });
       setProduct(response.data);
       setTimeout(() => {
@@ -60,10 +73,10 @@ const Products = () => {
       }, 1000);
     } catch (err) {
       console.log(`Error: ${err.message}`);
-      if (err.response.status === 401) {
-        localStorage.clear();
-        navigate("/login");
-      }
+      // if (err.response.status === 401) {
+      //   localStorage.clear();
+      //   navigate("/login");
+      // }
     }
   };
 
@@ -94,9 +107,9 @@ const Products = () => {
             productId
           )}&date=${selectedDate}`,
           {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("user-token")}`,
-            },
+            // headers: {
+            //   Authorization: `Bearer ${localStorage.getItem("user-token")}`,
+            // },
           }
         );
 
@@ -114,10 +127,10 @@ const Products = () => {
       }
     } catch (err) {
       console.log(`Error: ${err.message}`);
-      if (err.response.status === 401) {
-        localStorage.clear();
-        navigate("/login");
-      }
+      // if (err.response.status === 401) {
+      //   localStorage.clear();
+      //   navigate("/login");
+      // }
     }
   };
 
@@ -150,8 +163,8 @@ const Products = () => {
       ) : loadingProduct ? (
         <CircularProgress />
       ) : (
-        <div style={{ border: "2px solid black" }}>
-          <div style={{ border: "2px solid red" }}>
+        <div>
+          <div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateCalendar
                 value={value}

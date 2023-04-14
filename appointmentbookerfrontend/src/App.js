@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Booking from "./components/Booking";
 import Products from "./components/Products";
 import NewProduct from "./components/NewProduct";
+import Salons from "./components/Salons";
 import jwt_decode from "jwt-decode";
 
 function App() {
@@ -40,6 +41,9 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/salons" element={<Salons />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/booking" element={<Booking />} />
         <Route
           path=""
           element={
@@ -48,22 +52,22 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
+        {/* <Route
           path="booking"
           element={
             <ProtectedRoute>
               <Booking />
             </ProtectedRoute>
           }
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="products"
           element={
             <ProtectedRoute>
               <Products />
             </ProtectedRoute>
           }
-        />
+        /> */}
         <Route
           path="newproduct"
           element={

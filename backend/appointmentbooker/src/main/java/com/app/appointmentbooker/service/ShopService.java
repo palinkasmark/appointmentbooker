@@ -1,6 +1,7 @@
 package com.app.appointmentbooker.service;
 
 import java.time.LocalTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -41,6 +42,10 @@ public class ShopService {
             LocalTime lastAppointment = product.getAvailableDates().get(product.getAvailableDates().size() - 1);
             newAppointment = lastAppointment.plusHours(duration.getHour()).plusMinutes(duration.getMinute());
         }
+    }
+
+    public List<Shop> getShops() {
+        return shopRepository.findAll();
     }
 
   
