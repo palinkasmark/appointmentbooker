@@ -11,9 +11,7 @@ const Home = () => {
 
   return (
     <>
-      <div>
-        Welcome home {username} {shop ? shop.name : ""}{" "}
-      </div>
+      <div>Welcome home {username} </div>
       {shop ? (
         <Button
           variant="contained"

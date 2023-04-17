@@ -117,17 +117,17 @@ const Products = () => {
 
   return (
     <>
-      <div class="container">
+      <div className="container">
         {isLoading ? (
-          <div class="circular-progress-container">
+          <div className="circular-progress-container">
             <CircularProgress />
           </div>
         ) : (
-          <div class="product-list-container" key={product.id}>
+          <div className="product-list-container" key={product.id}>
             {products.map((product) => {
               return (
-                <ul class="product-list-ul">
-                  <li class="product-list-li">
+                <ul key={product.id} className="product-list-ul">
+                  <li className="product-list-li">
                     <Button
                       onClick={() => getProductById(product.id)}
                       color="info"
@@ -144,11 +144,11 @@ const Products = () => {
         {loadingProduct === undefined ? (
           ""
         ) : loadingProduct ? (
-          <div class="circular-progress-container">
+          <div className="circular-progress-container">
             <CircularProgress />
           </div>
         ) : (
-          <div class="calendar">
+          <div className="calendar">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateCalendar
                 value={value}
@@ -156,7 +156,7 @@ const Products = () => {
               />
             </LocalizationProvider>
             {loadingTimes ? (
-              <div class="circular-progress-container">
+              <div className="circular-progress-container">
                 <CircularProgress />
               </div>
             ) : (
