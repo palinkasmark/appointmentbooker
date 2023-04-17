@@ -6,8 +6,6 @@ import dayjs from "dayjs";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
 const Products = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProduct, setLoadingProduct] = useState(undefined);
@@ -62,21 +60,13 @@ const Products = () => {
     setLoadingProduct(true);
     setProductId(productId);
     try {
-      const response = await api.get("getproductby?id=" + productId, {
-        // headers: {
-        //   Authorization: `Bearer ${localStorage.getItem("user-token")}`,
-        // },
-      });
+      const response = await api.get("getproductby?id=" + productId);
       setProduct(response.data);
       setTimeout(() => {
         setLoadingProduct(false);
       }, 1000);
     } catch (err) {
       console.log(`Error: ${err.message}`);
-      // if (err.response.status === 401) {
-      //   localStorage.clear();
-      //   navigate("/login");
-      // }
     }
   };
 
@@ -105,12 +95,7 @@ const Products = () => {
         const response = await api.get(
           `getbookingdetailsbydate?id=${parseInt(
             productId
-          )}&date=${selectedDate}`,
-          {
-            // headers: {
-            //   Authorization: `Bearer ${localStorage.getItem("user-token")}`,
-            // },
-          }
+          )}&date=${selectedDate}`
         );
 
         let availableDates = product.availableDates;
@@ -127,18 +112,11 @@ const Products = () => {
       }
     } catch (err) {
       console.log(`Error: ${err.message}`);
-      // if (err.response.status === 401) {
-      //   localStorage.clear();
-      //   navigate("/login");
-      // }
     }
   };
 
   return (
     <>
-      <Button color="warning" variant="contained" onClick={() => navigate(-1)}>
-        <ArrowBackIcon fontSize="large" />
-      </Button>
       <div class="container">
         {isLoading ? (
           <div class="circular-progress-container">

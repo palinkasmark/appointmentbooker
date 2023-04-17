@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function Nav({ isLoggedIn }) {
   const navigate = useNavigate();
@@ -63,6 +64,24 @@ export default function Nav({ isLoggedIn }) {
               </Button>
             </>
           )}
+
+          <p>
+            {["login", "signup", "salons", ""].includes(
+              window.location.href.split("/")[
+                window.location.href.split("/").length - 1
+              ]
+            ) ? (
+              ""
+            ) : (
+              <Button
+                color="warning"
+                variant="contained"
+                onClick={() => navigate(-1)}
+              >
+                <ArrowBackIcon />
+              </Button>
+            )}
+          </p>
         </Toolbar>
       </AppBar>
     </Box>

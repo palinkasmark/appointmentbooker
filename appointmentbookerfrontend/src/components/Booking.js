@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { Button, TextField } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
 import api from "../api/api";
 
 const Booking = () => {
   const { state } = useLocation();
   const { id, date, time } = state;
   const [name, setName] = useState("");
-  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -20,11 +18,7 @@ const Booking = () => {
     };
 
     try {
-      const response = await api.post("savebooking?id=" + id, bookingDetails, {
-        // headers: {
-        //   Authorization: `Bearer ${localStorage.getItem("user-token")}`,
-        // },
-      });
+      const response = await api.post("savebooking?id=" + id, bookingDetails);
       console.log(response.data);
     } catch (err) {
       console.log(`Error: ${err.message}`);
@@ -33,16 +27,7 @@ const Booking = () => {
 
   return (
     <>
-      <h2>
-        Booking details{" "}
-        <Button
-          color="warning"
-          variant="contained"
-          onClick={() => navigate(-1)}
-        >
-          <ArrowBackIcon fontSize="large" />
-        </Button>
-      </h2>
+      <h2>Booking details</h2>
 
       <form onSubmit={handleSubmit}>
         <TextField

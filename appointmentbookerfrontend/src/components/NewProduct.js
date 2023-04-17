@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 
 import TextField from "@mui/material/TextField";
-import { Button, CircularProgress } from "@mui/material";
+import { Button } from "@mui/material";
 import { TimeField } from "@mui/x-date-pickers/TimeField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import api from "../api/api";
 
 import { useNavigate } from "react-router";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const SaveProduct = () => {
   const [productName, setProductName] = useState("");
@@ -49,16 +48,7 @@ const SaveProduct = () => {
 
   return (
     <div>
-      <h2>
-        New Product
-        <Button
-          color="warning"
-          variant="contained"
-          onClick={() => navigate(-1)}
-        >
-          <ArrowBackIcon fontSize="large" />
-        </Button>
-      </h2>
+      <h2>New Product</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <TextField
