@@ -139,64 +139,72 @@ const Products = () => {
       <Button color="warning" variant="contained" onClick={() => navigate(-1)}>
         <ArrowBackIcon fontSize="large" />
       </Button>
-      {isLoading ? (
-        <CircularProgress />
-      ) : (
-        <div>
-          {products.map((product) => {
-            return (
-              <p key={product.id}>
-                <Button
-                  onClick={() => getProductById(product.id)}
-                  color="info"
-                  variant="contained"
-                >
-                  {product.id}: {product.productName}
-                </Button>
-              </p>
-            );
-          })}
-        </div>
-      )}
-      {loadingProduct === undefined ? (
-        ""
-      ) : loadingProduct ? (
-        <CircularProgress />
-      ) : (
-        <div>
-          <div>
+      <div class="container">
+        {isLoading ? (
+          <div class="circular-progress-container">
+            <CircularProgress />
+          </div>
+        ) : (
+          <div class="product-list-container" key={product.id}>
+            {products.map((product) => {
+              return (
+                <ul class="product-list-ul">
+                  <li class="product-list-li">
+                    <Button
+                      onClick={() => getProductById(product.id)}
+                      color="info"
+                      variant="contained"
+                    >
+                      {product.id}: {product.productName}
+                    </Button>
+                  </li>
+                </ul>
+              );
+            })}
+          </div>
+        )}
+        {loadingProduct === undefined ? (
+          ""
+        ) : loadingProduct ? (
+          <div class="circular-progress-container">
+            <CircularProgress />
+          </div>
+        ) : (
+          <div class="calendar">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateCalendar
                 value={value}
                 onChange={(newValue) => setValue(newValue)}
               />
             </LocalizationProvider>
+            {loadingTimes ? (
+              <div class="circular-progress-container">
+                <CircularProgress />
+              </div>
+            ) : (
+              freeTimes.map((time) => (
+                <Button
+                  key={time}
+                  color="success"
+                  variant="contained"
+                  style={{ margin: "2px" }}
+                  onClick={() =>
+                    navigate("/booking", {
+                      state: {
+                        id: product.id,
+                        date: selectedDate,
+                        time: time,
+                      },
+                    })
+                  }
+                >
+                  {time}
+                </Button>
+              ))
+            )}
           </div>
-          {loadingTimes ? (
-            <CircularProgress />
-          ) : (
-            freeTimes.map((time) => (
-              <Button
-                key={time}
-                color="success"
-                variant="contained"
-                style={{ margin: "2px" }}
-                onClick={() =>
-                  navigate("/booking", {
-                    state: {
-                      id: product.id,
-                      date: selectedDate,
-                      time: time,
-                    },
-                  })
-                }
-              >
-                {time}
-              </Button>
-            ))
-          )}
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };
