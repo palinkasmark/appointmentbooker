@@ -3,12 +3,14 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function Nav({ isLoggedIn }) {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const { shop } = state || "";
 
   const navigateTo = (page) => {
     navigate(`/${page}`);
@@ -31,13 +33,23 @@ export default function Nav({ isLoggedIn }) {
                 LogOut
               </Button>
 
-              <Button
-                color="success"
-                variant="contained"
-                onClick={() => navigateTo("newproduct")}
-              >
-                New Product
-              </Button>
+              {shop ? (
+                <Button
+                  color="success"
+                  variant="contained"
+                  onClick={() => navigateTo("newproduct")}
+                >
+                  New Product
+                </Button>
+              ) : (
+                <Button
+                  color="success"
+                  variant="contained"
+                  // onClick={() => navigateTo("newproduct")}
+                >
+                  New shop
+                </Button>
+              )}
             </>
           ) : (
             <>

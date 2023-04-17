@@ -22,16 +22,26 @@ const Login = () => {
 
     try {
       const response = await api.post("api/auth/login", user);
-      console.log(response);
       const data = response.data;
       const token = data.accessToken;
       localStorage.clear();
       localStorage.setItem("user-token", token);
       localStorage.setItem("username", user.username);
 
+      const userData = await api.get("getuser", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(userData.data);
+
       setTimeout(() => {
         setIsLoading(false);
-        navigate("/");
+        navigate("/", {
+          state: {
+            shop: userData.data.shop,
+          },
+        });
       }, 1000);
     } catch (err) {
       console.log(`Error: ${err.message}`);

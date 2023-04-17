@@ -1,22 +1,30 @@
 import React from "react";
 
 import { Button } from "@mui/material";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 const Home = () => {
   const username = localStorage.getItem("username");
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const { shop } = state || "";
 
   return (
     <>
-      <div>Welcome home {username} </div>
-      <Button
-        variant="contained"
-        color="info"
-        onClick={() => navigate("products")}
-      >
-        Products
-      </Button>
+      <div>
+        Welcome home {username} {shop ? shop.name : ""}{" "}
+      </div>
+      {shop ? (
+        <Button
+          variant="contained"
+          color="info"
+          onClick={() => navigate("products")}
+        >
+          Products
+        </Button>
+      ) : (
+        <p>New shop</p>
+      )}
     </>
   );
 };
