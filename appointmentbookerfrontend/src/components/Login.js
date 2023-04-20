@@ -39,7 +39,7 @@ const Login = () => {
         setIsLoading(false);
         navigate("/", {
           state: {
-            shop: userData.data.shop,
+            shopData: userData.data.shop,
           },
         });
       }, 1000);

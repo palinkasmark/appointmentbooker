@@ -11,6 +11,7 @@ import Booking from "./components/Booking";
 import Products from "./components/Products";
 import NewProduct from "./components/NewProduct";
 import Salons from "./components/Salons";
+import NewSalon from "./components/NewSalon";
 import jwt_decode from "jwt-decode";
 
 function App() {
@@ -73,6 +74,14 @@ function App() {
           element={
             <ProtectedRoute>
               <NewProduct />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="newsalon"
+          element={
+            <ProtectedRoute>
+              <NewSalon />
             </ProtectedRoute>
           }
         />

@@ -42,13 +42,27 @@ export default function Nav({ isLoggedIn }) {
                   New Product
                 </Button>
               ) : (
-                <Button
-                  color="success"
-                  variant="contained"
-                  // onClick={() => navigateTo("newproduct")}
-                >
-                  New shop
-                </Button>
+                ["newproduct"].includes(
+                  window.location.href.split("/")[
+                    window.location.href.split("/").length - 1
+                  ] ? (
+                    <Button
+                      color="warning"
+                      variant="contained"
+                      onClick={() => navigate(-1)}
+                    >
+                      <ArrowBackIcon />
+                    </Button>
+                  ) : (
+                    <Button
+                      color="success"
+                      variant="contained"
+                      // onClick={() => navigateTo("newproduct")}
+                    >
+                      New shop
+                    </Button>
+                  )
+                )
               )}
             </>
           ) : (

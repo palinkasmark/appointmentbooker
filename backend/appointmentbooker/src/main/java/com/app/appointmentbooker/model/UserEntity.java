@@ -31,7 +31,7 @@ public class UserEntity {
     private List<Role> roles = new ArrayList<>();
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_bookings",
                 joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name = "booking_id", referencedColumnName = "booking_details_id"))

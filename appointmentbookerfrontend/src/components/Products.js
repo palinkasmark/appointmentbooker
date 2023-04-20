@@ -122,7 +122,7 @@ const Products = () => {
           <div className="circular-progress-container">
             <CircularProgress />
           </div>
-        ) : (
+        ) : products.length !== 0 ? (
           <div className="product-list-container" key={product.id}>
             {products.map((product) => {
               return (
@@ -140,6 +140,14 @@ const Products = () => {
               );
             })}
           </div>
+        ) : (
+          <Button
+            color="success"
+            variant="contained"
+            onClick={() => navigate("/newproduct")}
+          >
+            New Product
+          </Button>
         )}
         {loadingProduct === undefined ? (
           ""
