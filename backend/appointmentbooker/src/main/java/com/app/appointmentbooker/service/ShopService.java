@@ -48,6 +48,10 @@ public class ShopService {
         return shopRepository.findAll();
     }
 
+    public Shop getShopById(Integer id) {
+        return shopRepository.findById(id).get();
+    }
+
   
 
     

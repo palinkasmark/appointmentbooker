@@ -108,6 +108,12 @@ public class HomeController {
     public List<Product> getProductsByShop(@RequestParam(name = "id") Integer shopId) {
         return productService.getProductsByShop(shopId);
     }
+
+    @GetMapping("/getshopbyid")
+    public Shop getShopById(@RequestParam(name = "id") Integer id) {
+        return shopService.getShopById(id);
+    }
+
     @GetMapping("/getuser")
     public UserEntity getUserByUsername() {
         return userService.getUserByUsername();

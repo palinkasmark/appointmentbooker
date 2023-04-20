@@ -23,10 +23,10 @@ const Products = () => {
     const getProductsByShop = async () => {
       const { id } = state;
       try {
-        const response = await api.get(`getproductsbyshop?id=${id}`);
+        const response = await api.get(`getshopbyid?id=${id}`);
         setTimeout(() => {
           setIsLoading(false);
-          setProducts(response.data);
+          setProducts(response.data.products);
         }, 2000);
       } catch (err) {
         console.log(`Error: ${err.message}`);
@@ -140,7 +140,7 @@ const Products = () => {
               );
             })}
           </div>
-        ) : (
+        ) : localStorage.getItem("user-token") ? (
           <Button
             color="success"
             variant="contained"
@@ -148,6 +148,8 @@ const Products = () => {
           >
             New Product
           </Button>
+        ) : (
+          <p>This shop hasn't products.</p>
         )}
         {loadingProduct === undefined ? (
           ""

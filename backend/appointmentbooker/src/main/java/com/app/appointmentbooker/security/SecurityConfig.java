@@ -66,7 +66,10 @@ public class SecurityConfig {
              .authorizeHttpRequests()
              .requestMatchers("/savebooking")
              .permitAll()
-
+             .and()
+             .authorizeHttpRequests()
+             .requestMatchers("/getshopbyid")
+             .permitAll()
              .anyRequest().authenticated()
              .and()
              .httpBasic();
