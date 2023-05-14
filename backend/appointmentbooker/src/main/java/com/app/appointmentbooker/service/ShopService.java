@@ -35,7 +35,8 @@ public class ShopService {
         LocalTime openFrom = shop.getOpenFrom();
         LocalTime openTo = shop.getOpenTo();
 
-        LocalTime newAppointment = openFrom; 
+        LocalTime newAppointment = openFrom;
+        System.out.println(openFrom);
         
         while(newAppointment.getHour() < openTo.getHour()) {
             product.getAvailableDates().add(newAppointment);
