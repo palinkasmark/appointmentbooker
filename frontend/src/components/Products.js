@@ -46,6 +46,10 @@ const Products = () => {
           setProducts(user.shop.products);
         }, 2000);
       } catch (error) {
+        if (error.response.status === 401) {
+          localStorage.clear();
+          navigate("login");
+        }
         console.log(`Error: ${error.message}`);
       }
     };

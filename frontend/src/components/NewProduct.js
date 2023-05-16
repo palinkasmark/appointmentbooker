@@ -41,8 +41,12 @@ const SaveProduct = () => {
         },
       });
       console.log(response.data);
-    } catch (err) {
-      console.log(`Erro: ${err.message}`);
+    } catch (error) {
+      if (error.response.status === 401) {
+        localStorage.clear();
+        navigate("login");
+      }
+      console.log(`Error: ${error.message}`);
     }
   };
 

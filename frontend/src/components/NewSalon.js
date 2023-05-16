@@ -17,10 +17,30 @@ const NewSalon = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    let openFromHour = openFrom.$H;
+    let openFromMinutes = openFrom.$m;
+
+    if (openFromHour < 10) {
+      openFromHour = "0" + openFromHour;
+    }
+    if (openFromMinutes < 10) {
+      openFromMinutes = "0" + openFromMinutes;
+    }
+
+    let openToHour = openTo.$H;
+    let openToMinutes = openTo.$m;
+
+    if (openToHour < 10) {
+      openToHour = "0" + openToHour;
+    }
+    if (openToMinutes < 10) {
+      openToMinutes = "0" + openToMinutes;
+    }
+
     const newSalon = {
       name: name,
-      openFrom: openFrom,
-      openTo: openTo,
+      openFrom: openFromHour + ":" + openFromMinutes,
+      openTo: openToHour + ":" + openToMinutes,
     };
 
     try {
@@ -36,6 +56,10 @@ const NewSalon = () => {
         },
       });
     } catch (error) {
+      if (error.response.status === 401) {
+        localStorage.clear();
+        navigate("login");
+      }
       console.log(`Error: ${error.message}`);
     }
   };
@@ -56,14 +80,14 @@ const NewSalon = () => {
               required
               label="Open from"
               value={openFrom}
-              onChange={(e) => setOpenFrom(e.target.value)}
+              onChange={(newValue) => setOpenFrom(newValue)}
               format="HH:mm"
             />
             <TimeField
               required
               label="Open to"
               value={openTo}
-              onChange={(e) => setOpenTo(e.target.value)}
+              onChange={(newValue) => setOpenTo(newValue)}
               format="HH:mm"
             />
           </LocalizationProvider>
